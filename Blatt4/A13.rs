@@ -32,7 +32,7 @@ fn fibonacci_iterative(n: u128) -> u128 {
 }
 
 /// TIME COMPLEXITY: O(2^n)
-/// SPACE COMPLEXITY: O(1)
+/// SPACE COMPLEXITY: O(n)
 fn fibonacci_recursive(n: u128) -> u128 {
     if n == 0 {
         return 0;
@@ -45,7 +45,9 @@ fn fibonacci_recursive(n: u128) -> u128 {
     fibonacci_recursive(n - 1) + fibonacci_recursive(n - 2)
 }
 
-fn calculate_time_for_n_numbers(fibonacci_fn: fn(u128) -> u128, max_time_in_secs: u64) -> u128 {
+fn calculate_time_for_n_numbers(fibonacci_fn: T, max_time_in_secs: u64) -> u128 
+    where T: Fn(u128) -> u128 + Send + Copy + 'static
+{
     let (tx, rx) = channel();
 
     let start_time = Instant::now();
